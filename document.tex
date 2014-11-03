@@ -1,0 +1,981 @@
+%%This is a very basic article template.
+%%There is just one section and two subsections.
+\documentclass[12pt]{article}
+
+\usepackage{graphicx}
+\usepackage{endnotes}
+\usepackage[round]{natbib}
+\usepackage{setspace}
+\usepackage[margin=1in]{geometry}
+\usepackage[nolists]{endfloat} % to put all floats at end for draft submission
+
+\def\citeapos#1{\citeauthor{#1}'s (\citeyear{#1})} % define a possessive citation command
+
+%\renewcommand\makeenmark{\textsuperscript{\theenmark}}
+
+\title{Who's Afraid of Wikileaks? \\ \vspace{2 mm} \large Missed Opportunities in Political Science Research}
+%\author{Gabriel J. Michael \\
+%		Department of Political Science \\
+%		The George Washington University \\
+%		}
+
+\begin{document}
+
+\maketitle
+
+\doublespacing
+
+\begin{abstract}
+Leaked information, such as Wikileak's Cablegate, constitutes a unique and valuable data source for researchers
+interested in a wide variety of policy-oriented topics. Yet political scientists have avoided using
+leaked information in their research. This article argues that we can and should use leaked information 
+as a data source in scholarly research. First, I consider the
+methodological, ethical, and legal challenges related to the use of leaked information in research, concluding 
+that none of these present serious obstacles. 
+Second, I show how political scientists can use leaked information to generate novel and unique 
+insights about political phenomena using a variety of quantitative and qualitative methods. Specifically, 
+I demonstrate how leaked documents reveal important details about the Trans-Pacific Partnership 
+negotiations, and how leaked diplomatic cables highlight a significant disparity between the U.S. governments' 
+public attitude towards traditional knowledge and its private behavior.
+\end{abstract}
+
+\section{Introduction}
+
+In 2010, Wikileaks became a household name. A series of three high profile ``mega-leaks'' 
+catapulted the organization to international notoriety.
+The ``Afghan War Diary'' contained thousands of military logs relating to the U.S. war in Afghanistan;
+the ``Iraq War Logs'' made public nearly 400,000 U.S. 
+army field reports from Iraq; and ``Cablegate'' resulted in the release of a quarter-million 
+diplomatic cables sent from posts around the world to the the U.S. State Department.
+Media coverage initially focused largely on the substance of the leaks themselves, which were as likely to contain 
+important revelations about interstate behavior as gossip about political celebrities \citep{shane2010wikileaks,hooper2010silvio}.
+Increasingly, however, interest shifted away from the content of the leaks and towards questions 
+about Wikileaks as an organization, its founder Julian Assange, and the relationship of the organization 
+to traditional media \citep{saunders2011wikileaks,benkler2011free}.
+
+While political scientists have been somewhat willing to study the politics of leaking and leakers, 
+they have largely avoided engaging with leaked information itself.
+Most of the discussion surrounding leaks and leakers has focused on 
+their consequences for democracy and diplomacy, or the role of 
+leakers as a new kind of political actor \citep{simmons2011international,
+davis2012political,pieterse2012leaking,springer2012leaky,
+wong2013e-bandits}. An editor's note in this very journal declared ``the explosion of information 
+from Wikileaks will provide innumerable opportunities for analysis about access to information, social action 
+defending that access, and the political ramifications resulting from these actions,'' \citep[123]{gore2011editors}.
+
+But published political science research that actually relies upon leaked information is surprisingly rare, especially given the breadth and depth of information that leaks have made 
+available. 
+In fact, at least one major political science journal has adopted a policy against 
+publishing manuscripts that reference leaked documents if such references 
+could be construed as mishandling classified material. 
+Among works published in \textit{Review of Policy Research}, only a single article mentions Wikileaks, and then only in passing \citep{kingiri2012role}.
+In other venues, researchers occasionally cite a few leaked cables from 
+Cablegate with little discussion \citep{bowen2011irans,guliyev2012political}.
+\citet{schrodt2012precedents} notes that the Afghan War Diary and Iraq War Logs are examples of 
+geolocated event data, and thus could prove useful for analysis, but does not actually analyze the 
+data.
+\citet{mouritzen2012explaining} use information from Cablegate to supplement their analysis of the 
+Russo-Georgian war, while
+\citet{petersohn2013effectiveness} examines the effectiveness of private contractors with data from the 
+Iraq War Logs. 
+One notable exception to the lack of engagement with leaked data in political science 
+can be found in the \emph{Middle East Review of International Affairs}, which has published several 
+articles relying on leaked diplomatic cables in analyses of regional politics in Turkey, Israel, 
+Ethiopia, Eritrea, and Lebanon \citep{altiparmak2011wikileaks,
+spyer2011israel,lefebvre2012choosing,smyth2011``independent}.
+
+Outside of academic journals, blogs such as \textit{The Monkey Cage} have been slightly more willing 
+to treat leaked information as a data source \citep{voeten2010wikileaks,michael2013united}.
+But the trend at conferences has shifted towards less engagement. In 2012, the first year following the 
+complete and unredacted release of Wikileaks' diplomatic cables, the annual meeting of the International Studies 
+Association (ISA) hosted sixteen papers mentioning leaks, although only about half of these actually dealt 
+with the content of the leaks. By contrast, in 2013, no papers dealing with leaks were presented, and in 2014, 
+only two were presented, and only one of these made use of leaked information.
+
+Scholars in other disciplines have been more more willing to make use of leaked information. 
+In fields as varied as informatics, applied mathematics, geography, and economics, researchers have 
+enthusiastically turned to the leaked information of the Afghan War Diary and the Iraq War Logs 
+as invaluable data sources for modeling and predicting conflict \citep{linke2012space-time,zammit-mangion2012point,cseke2013sparse,rusch2013model,
+zammit-mangion2013modeling}.
+Indeed, \citet{dedeo2013bootstrap} say that the Afghan War Diary ``is likely to become 
+a standard set for both the analysis of human conflict and the study of empirical methods for the 
+analysis of complex, multi-modal data,'' (p. 2257). Legal scholars have also begun to discover 
+the value of the Cablegate corpus as a data source. \citet{khoo2011what} and \citet{mendis2012destiny} 
+both cite Wikileaks cables to support their analyses of international relations in Asia. 
+More recently, \citet{el_said2012morning} quotes extensively from 
+leaked diplomatic cables to elucidate the bilateral free trade agreement negotiations between the United States 
+and Jordan. 
+
+It is not obvious why political scientists are more reluctant to engage with 
+leaked information as a data source than scholars in other disciplines, but my disciplinary 
+diagnosis suggests two broad reasons. First, some scholars have concerns about data quality, 
+ethics, and the legal or professional consequences associated with using leaked data. 
+Second, some scholars believe that leaked data offers no additional value for research, 
+or is not particularly relevant to the study of political science.
+
+Both of these sentiments are incorrect. 
+In this article, I argue that political scientists \emph{can} use leaked information because 
+the methodological, ethical, and legal objections raised to its use are overblown. 
+Furthermore, I argue that political scientists \emph{should} use leaked information because it 
+is uniquely valuable and offers insight that would otherwise be unavailable.
+
+In the first part of the article, I briefly review some of the methodological, ethical and legal objections to the use of leaked data 
+in research. I conclude that 
+questions of data quality and selection bias are no more pressing for leaked information 
+than for more common data sources. Furthermore, most ethical concerns are only relevant for those deciding 
+whether to leak information in the first place or members of the media who can provide benefits 
+such as notoriety to potential leakers. However, some legal concerns merit closer attention, particularly for researchers 
+who hold security clearances or those who have worked, currently work, or in the future wish to work for the U.S. government.
+
+With respect to Wikileaks in particular, one common perception, in part influenced by media 
+coverage, is that leaked data contain little more than confirmations of common knowledge or 
+gossip \citep{saunders2011wikileaks,chesterman2011wikileaks}. But as \citet{bob2010wikileaks} argues, this perception is 
+misguided. In the second part of the article, I use leaked information from multiple sources, including Wikileaks' 
+Cablegate and recently 
+released documents relating to the Trans-Pacific Partnership agreement, to provide three examples 
+demonstrating the kinds of research that leaked information---and only leaked information---makes possible. 
+My examples illustrate how leaked information can inform policy-relevant research in a variety of areas, such as 
+innovation and intellectual property policy, trade policy, and traditional knowledge.
+These examples demonstrate 
+how both quantitative and qualitative research in political science can benefit from the use of 
+leaked information as a data source. 
+
+While I focus largely on U.S. policy within my own area of research, my conclusions are broadly relevant 
+to political scientists, policy analysts, activists, and advocates working in a variety of areas. 
+Leaked information that is currently available sheds light on the politics and policy of climate negotiations, 
+international labor and environmental standards, public health, and international development. Nor are leaks 
+purely a U.S.-centric phenomenon: \citet{zayani2013jazeeras} discusses the importance of Al Jazeera's 
+Palestine Papers for Middle Eastern media politics, and we can expect leaks from a variety of sources in the future. 
+Rather than dismissing leaked information, we ought to engage with it. This article shows both how and why.
+
+%\citep{rusch2011modeling} research paper on mortality rates
+
+% Interestingly, among authors that explicitly analyze leaked data, most are foreign.
+
+% Furthermore, methodological, legal and ethical concerns have not stopped scholars in 
+% other disciplines from using leaked data in their research. 
+
+\section{Methodology, Ethics, and Law}
+
+\subsection{Methodological Concerns}
+
+Data quality is a key concern for scholars who might wish to use leaked information as a data source. 
+Leaked information is by its very nature illicit, with the result that its provenance is often unknown. 
+This can make it difficult to assess the authenticity 
+or reliability of such data \citep{kelly2012wikileaks:}.
+
+However, concerns about the data quality of leaked information are no more pressing for 
+leaked information than for most formally released information. Interview and archival research are 
+fraught with potential data quality pitfalls, but these challenges are not a reason to avoid 
+using such research methods. As \citet{hecht2012being} explains,
+\begin{quote}
+Interviews do not offer an unmediated window on events. But neither do documents. Both 
+types of sources are products of their times and circumstances. Both make certain events visible while 
+leaving others invisible. They are generated for particular audiences, and the stakes and nuances 
+of their narratives are often difficult to discern (pp. 341-342).
+\end{quote}
+Nor is data quality only a relevant concern for qualitative research: 
+quantitative research frequently takes for granted the quality of its datasets, even 
+when such datasets have well-known problems \citep{herrera2007improving}.
+As with any data source, scholars should 
+carefully consider the quality of the information and attempt to verify its authenticity and 
+reliability when possible. With respect to leaked information in general, such verification might be 
+achieved by 
+comparing portions of leaked data to data from other sources, or corroborating the events or accounts related 
+in leaks to newspapers or other public records.
+With respect to Wikileaks in particular, it is worth noting that significant portions of the Cablegate release 
+have been vetted by well-respected news organizations, such as \emph{The New York Times}, 
+\emph{The Guardian}, and \emph{Der Spiegel} \citep{debevec2010professor:}.
+
+Selection bias presents another potentially serious problem. Most leaks represent only a fraction 
+of a much larger collection of information, and the selection process employed is  
+unknown.\endnote{For example, according to State Department 
+officials, during the 2006-2010 period from which most of Cablegate's quarter million cables originate, 
+the State Department transmitted 2.4 million cables through other systems \citep{roberts2012wikileaks:}. 
+Thus Cablegate contains only about one out of every ten cables transmitted.}
+In other cases, organizations such as 
+Wikileaks explicitly engage in selection and editing before release, potentially introducing bias.
+But again, these problems are not unique to leaked information. Quantitative datasets with limited 
+coverage frequently constrain researchers, forcing them to focus on only the countries for which data 
+are available. Nor do researchers always know which data they are missing. Archives rarely contain 
+complete collections of documents; rather, holdings are curated by a non-random process. While 
+archivists may endeavor to retain the most important documents, importance is subjective and dependent 
+upon research interests.\endnote{``The coherence of written history masks the inherent 
+unruliness of research\ldots archival silences stem 
+as much from choices about \emph{what} to preserve as from overt classification and 
+secrecy,'' \citep[342]{hecht2012being}.}
+
+Thus, while leaked information may not be of perfect quality, and may be incomplete or even 
+biased in coverage, there is no reason to expect that leaked information is in these respects any worse 
+than the commonplace data sources researchers rely upon on a daily basis. We should not necessarily 
+be especially suspicious of leaked information simply because it has been leaked.
+That said, it is incumbent upon researchers to recognize the limitations common to all research involving documents. 
+Documents provide an incomplete picture of events, often from a one-sided perspective. 
+Leaked documents and data may be out of date, or have played no role in decision making or 
+policy making processes.
+But these common problems can be mitigated. For example, readers of Cablegate should  
+remind themselves of the ``institutional and America-centric bubble'' the writers of diplomatic cables 
+inhabit \citep{kinsman2011truth}.
+
+Here, as elsewhere, 
+the best approach is to proceed carefully, always remaining conscious of concerns about data quality 
+and selection bias. As \citet{western2010american} notes, leaked data such as diplomatic cables are not  
+novel sources of information: diplomatic cables are standard fare for scholars of U.S. foreign policy. 
+Rather, the leaks simply allow us to ``leapfrog the traditional 30 years process'' of declassification.
+
+\subsection{Ethical Concerns}
+
+There are important ethical considerations linked to the use of leaked information in research. 
+While large scale, aggregate use of data from leaks is unlikely to cause harm to individuals, 
+publication of detailed content can and has 
+caused harm to individuals. For example, the Taliban have admitted studying Wikileak's 
+Afghan War Diary in an attempt to find information about Afghan civilians who provided information 
+to the U.S. military \citep{winnett2010wikileaks}. Apart from potential physical harm, 
+leaked information 
+has also forced diplomats to step down from their posts: in the wake of Cablegate, the 
+U.S. ambassador to Ecuador was expelled, and the U.S. ambassador to Mexico 
+resigned \citep{romero2011ecuador,associated_press2011us}. 
+Looking beyond individual harm, the major concern with most leaked information is its potential to 
+cause harm to organizations and agencies, governments, or more abstract subjects such as 
+national security or international reputation.
+% But what about harm to organizations / nations / governments / agencies?
+
+While sobering, these ethical issues are most relevant to the individuals or organizations deciding 
+whether to publish leaked 
+information that is not already publicly available. These considerations are generally \emph{not} 
+relevant 
+to the question of whether to use leaked but publicly available information in scholarly research. 
+The Afghan War Diary, Iraq 
+War Logs, and Cablegate leaks have now been publicly available to the entire world for three to four 
+years. The information is widely mirrored across the Internet, stored on servers in multiple countries, 
+and there is no chance of it being 
+recovered and made secret again. In fact, any attempt to reign in distribution of the information at this 
+late stage is likely only to increase its availability due to the ``Streisand effect'' \citep{marton2010protecting}. 
+Furthermore, any retaliatory or harmful actions stemming from the leaks are likely 
+to have already occurred, and in any case cannot obviously be prevented by avoiding their use in scholarly 
+research. Likewise, any purported damage to national security or international reputation caused by leaks 
+will come soon after their initial publication (if it comes at all), rather than as a result of scholarly analyses 
+published months or years after the documents themselves.
+
+With respect to formal research ethics, compliance with the guidelines established by institutional review boards (IRBs) will vary by institution. 
+However, the federal law upon which most IRBs base their guidelines explicitly exempts 
+``Research involving the collection or study of existing data, documents, records, pathological specimens, or diagnostic
+specimens, if these sources are publicly available,'' \citep[45 CFR 46.101 (b)(4)]{u.s._government2009code}.
+Leaked data that have remained widely available for several years, such at the data used in this article, 
+easily fall within this exemption.\endnote{By contrast, if researchers are direct recipients of leaked information 
+that is not already publicly available, the situation is very different. However, this is \emph{not} the situation 
+in which the vast majority of academic researchers who might use to wish leaked data will find themselves.}
+Even if not required to do so, researchers can still take basic steps to avoid drawing unnecessary attention 
+to individuals identified in leaked data, for example by redacting their names. But given the limited audience of 
+and access to most academic writing, fears that published research findings will draw more attention to 
+already-published data are unjustified.
+
+A more pertinent ethical issue is whether researchers should make use of data that were arguably 
+immorally obtained. By using leaked information, are researchers condoning the means by which it was 
+obtained, or encouraging future leakers to disclose sensitive information, as \citet{conway2013why} suggests?
+
+With respect to the first question, consider the fact that computer security researchers frequently 
+analyze stolen password databases in order to 
+better understand how real people choose passwords, with the ultimate goal of improving computer 
+security \citep{imperva2010imperva,bbc2013`123456}.
+These researchers are not condoning the theft of information; rather, 
+they choose to use such information precisely because its nature makes it particularly unique and 
+valuable. Indeed, before actively avoiding leaked information in research, scholars should consider 
+whether such avoidance can be justified given that they may be ignoring a potentially important 
+data source.\endnote{More consideration should be given before using or assigning leaked information 
+in the course of teaching, since some students may legitimately object to being required to read 
+such information.} Researchers who have signed classified information nondisclosure 
+agreements should 
+carefully consider whether accessing or using classified leaked information violates those agreements, 
+but researchers who have not signed such agreements do not face the same potential legal 
+obligations \citep{cox2011wikileaks}. However, the latter group should carefully consider 
+how accessing or publishing research on Wikileaks might affect their future prospects for access to 
+classified information through formal means.
+
+With respect to the second question, an analogy can be made to the ``fruit of the poisonous tree'' 
+doctrine in law, which forbids the use of subsequent information derived from illegally obtained 
+evidence. This principle exists largely to discourage police from 
+gathering evidence through illegal means: if illegally obtained evidence were permitted in one 
+case, this would provide an incentive for police to illegally obtain evidence in future cases. 
+However, with respect to leaked information, it is not clear 
+that scholarly use of such information will incentivize future leaks.
+While media coverage may play a role in encouraging future leaks by providing 
+potential leakers with the possibility of notoriety, the same cannot be said of scholarly research, 
+which generally receives little publicity and rarely covers newsworthy issues in a timely fashion.
+Furthermore, it appears that high-profile leakers such as Chelsea Manning, Edward Snowden, and 
+Thomas Drake have 
+been motivated to make their disclosures because of dissatisfaction with government policies, as 
+opposed to a desire for publicity or notoriety. Indeed, Wikileaks' dedication to protecting the anonymity of 
+its sources suggests that many leakers have no interest in publicity.
+
+Several commentators have suggested that these leaks may harm future scholarship by causing 
+diplomats, military personnel, and bureaucrats to avoid documenting information in permanent 
+formats \citep{drezner2010why,simmons2011international}. 
+But the claim that in response to leaks, government 
+officials will, e.g., prefer the telephone to e-mail misses the fact that for the vast majority of 
+content in leaks, these modes of communication are not interchangeable due to fundamental factors such as the 
+amount of information that must be communicated, time differences between offices, and the availability of 
+personnel. Furthermore, even if it proves true, choosing not to study already leaked 
+information is unlikely to affect 
+such decisions, which will be (and likely already have been) made in response to 
+the leaks themselves, not their subsequent use by scholars.
+
+\subsection{Legal Concerns}
+
+As noted above, researchers who have signed or intend to sign agreements or otherwise gain access to classified information 
+may face special considerations when deciding whether to access leaked information. Likewise, federal government 
+employees may also not be permitted to 
+access classified information without clearance even if the information is publicly available. However, 
+leaked information is not the same as classified information. In fact, with respect to 
+Wikileaks' release of diplomatic cables, more than half the cables are explicitly unclassified.
+
+When asked to review prohibitions on 
+the publication of classified defense information, the Congressional Research Service 
+declared, ``CRS is aware of no case in which a publisher of information obtained through unauthorized disclosure by a government
+employee has been prosecuted for publishing it,'' \citep[16]{elsea2013criminal}.
+The same report emphasizes that while leaked information related to national defense may be covered by the Espionage Act, 
+``There appears to be no statute that generally proscribes the acquisition or publication of diplomatic cables, although
+government employees who disclose such information without proper authority may be subject to prosecution,'' \citep[14]{elsea2013criminal}.
+Even for information related to national security, it would be very difficult to argue that academic research involving information 
+that has been publicly available for years is somehow likely to cause harm to national security.
+
+In general, the potential negative effects of using leaked information must be weighed against the value that such 
+information may hold for scholarly research. In the following section, I argue that scholars should 
+seriously 
+consider using leaked information as an additional data source in the course of their research. 
+When given careful attention, leaked documents can provide insights into international politics that 
+would otherwise be impossible to obtain. Furthermore, because of the nature and quantity of documents 
+that have been leaked, scholars can use both qualitative and quantitative techniques to gain such 
+insights.
+
+\section{Semi-Structured, Structured, and Unstructured Information}
+
+Historically, leaked information has been fodder first for journalists, and later for historians. 
+Some leaks, such as Daniel Ellsberg's Pentagon Papers, have proved useful for research in 
+presidential power, bureaucracy, and civil-military relations \citep{schwab2006clash,stevenson2006warriors}. However, many politically salient 
+leaks, such as Watergate or the Plame affair offer little information directly relevant to scholarly research. 
+These kinds of leaks have contributed to the perception that little of value can be gained by studying leaked information. 
+
+New leaks are different, both in kind and in amount. In this section I offer three examples showcasing the kinds of research that 
+leaked information---and only leaked information---makes possible. These three examples each use different content and different 
+analytical techniques. The first example relies upon a leaked draft of the intellectual property 
+chapter of the Trans-Pacific 
+Partnership (TPP), a plurilateral economic treaty currently being negotiated among twelve Pacific rim 
+countries. I show how researchers can extract semi-structured information from text, and use such data 
+to uncover relationships between negotiating parties.
+
+The second example also relates to the TPP, but relies upon a different leaked document which reports  
+the remaining areas of disagreement between negotiating parties as of November 2013. This document  
+covers a wide variety of substantive issues, as opposed to the previous example, which focused solely 
+on a single chapter of the TPP. I show how some leaks contain structured information which 
+permit the use of standard quantitative techniques to map agreement and disagreement between negotiating 
+parties, as well as relative levels of contention over various substantive negotiating topics. 
+
+Even after negotiations are complete (or fail), researchers often do not have 
+access to marked-up draft texts. Instead, they must rely on the reports and recollections of negotiators.  
+Such reports are necessarily incomplete, may come with an embedded national bias, and do not lend themselves 
+to quantitative analysis. These first two examples demonstrate how leaked data regarding ongoing negotiations 
+offer unique insights into the negotiating process that cannot otherwise be obtained. 
+
+The third and final example uses leaked diplomatic cables from Cablegate to show how researchers can employ 
+unstructured information (i.e., free text) in qualitative research to reveal discrepancies between the 
+public and private positions taken by the U.S. government on various policy topics. Specifically, I consider 
+the example of U.S. foreign policy with respect to traditional knowledge, a relatively new area of intellectual 
+property primarily trumpeted by developing countries. For researchers interested in specialized topics 
+that have traditionally been considered matters of ``low politics'', such as science and innovation policy, 
+Cablegate offers a wealth of information that would be difficult to match even by conducting hundreds of 
+interviews and visiting multiple archives, and all this without waiting decades for declassification.
+
+\subsection{Semi-Structured Information}
+
+Structured information refers to information stored in a well-defined, easily recoverable format that 
+is ideal for computer processing. Unstructured information usually refers to free text or documents 
+whose content is unorganized, making it difficult to process by computer. In between these two extremes 
+lies semi-structured information: bits of structured information within unstructured information, 
+or organized information that can be extracted from unstructured information without resorting to 
+full-fledged text mining.
+
+For example, leaks of draft treaties sometimes contain information about the positions 
+of negotiating parties. This was the case in 2010 when an internal European Union document was 
+leaked, revealing detailed positions of the parties negotiating the Anti-Counterfeiting 
+Trade Agreement (ACTA), a plurilateral treaty focusing on the enforcement of intellectual property 
+rights. Similarly, in 2013, Wikileaks released the draft text of TPP's intellectual property chapter, 
+including information about country positions.
+
+The bracketed text and negotiating positions in such leaks are often substantively interesting on 
+their own. For example, the leaked TPP chapter contains a statement noting that the treaty should 
+not prevent countries from addressing public health crises, even if doing so requires derogating from 
+the treaty's obligations with respect to patented medicines. That is, the treaty permits states to 
+prioritize public health over patent enforcement. Conflict between public health and patents has been 
+a major concern of developing countries since the late 1990s, when patents on anti-retroviral medications 
+made their prices prohibitive for the countries most afflicted by HIV/AIDS.
+In the treaty, public health crises are defined to 
+explicitly include the ``big three'' diseases of HIV/AIDS, tuberculosis, and malaria. 
+However, the United States opposes the inclusion of a specific reference to Chagas disease \citep[Art. QQ.A.5(a)]{wikileaks2013wikileaks}. 
+Chagas disease is one of several neglected tropical diseases that, while afflicting millions, 
+generally receives far less funding and attention than the ``big three.'' U.S. opposition to 
+explicitly mentioning Chagas disease derives from a desire to limit as much as possible 
+the potential cases in which other countries can override patents in the interests of public 
+health \citep[11]{government_accountability_office2007intellectual}.
+
+Apart from the details, such leaks also contain semi-structured textual information. 
+Negotiating positions are often indicated by standard country codes, and when multiple parties 
+support or oppose a provision, their codes are listed together. Such semi-structured information 
+can be programatically extracted using basic text processing tools. 
+The extracted information can then be 
+parsed to reveal the frequency with which pairs of countries (i.e., dyads) appear together on the same 
+side of an issue, 
+or the proportion of a country's proposals not supported by any other negotiating party, thereby 
+providing a detailed, behind-the-scenes snapshot of the negotiating process.
+
+The TPP currently comprises twelve negotiating parties: the United States, Japan, Canada, Mexico, 
+Australia, New Zealand, Peru, Chile, Singapore, Malaysia, Vietnam, and Brunei. Together, 
+these parties form 66 
+unique, unordered dyads. 
+% Table \ref{tbl_tpp_dyads} reports the frequency with which a given dyad 
+% appears in the draft text of the intellectual property chapter. Symmetric dyads (i.e., pairings of a 
+% country with itself) indicate the frequency with which countries appear in the text without any 
+% other negotiating parties joining them on a particular issue.
+% 
+% % latex table generated in R 2.15.2 by xtable 1.7-1 package
+% % Mon Dec 23 14:38:46 2013
+% \begin{table}[ht]
+% \caption{Country Dyad Frequencies in the TPP IP Chapter}
+% \label{tbl_tpp_dyads}
+% \centering
+% \begin{tabular}{lrrrrrrrrrrrr}
+%   \hline
+%  & AU & BN & CA & CL & JP & MX & MY & NZ & PE & SG & US & VN \\ 
+%   \hline
+% AU & 61 &  &  &  &  &  &  &  &  &  &  &  \\ 
+%   BN & 76 & 9 &  &  &  &  &  &  &  &  &  &  \\ 
+%   CA & 104 & 96 & 106 &  &  &  &  &  &  &  &  &  \\ 
+%   CL & 106 & 108 & 117 & 65 &  &  &  &  &  &  &  &  \\ 
+%   JP & 50 & 41 & 61 & 38 & 69 &  &  &  &  &  &  &  \\ 
+%   MX & 82 & 94 & 103 & 118 & 44 & 30 &  &  &  &  &  &  \\ 
+%   MY & 84 & 129 & 119 & 131 & 46 & 92 & 19 &  &  &  &  &  \\ 
+%   NZ & 117 & 103 & 121 & 132 & 55 & 98 & 131 & 30 &  &  &  &  \\ 
+%   PE & 106 & 92 & 95 & 127 & 47 & 113 & 100 & 106 & 21 &  &  &  \\ 
+%   SG & 110 & 99 & 110 & 140 & 47 & 95 & 136 & 120 & 122 & 21 &  &  \\ 
+%   US & 83 & 26 & 49 & 37 & 41 & 56 & 37 & 62 & 67 & 68 & 72 &  \\ 
+%   VN & 74 & 130 & 108 & 123 & 37 & 114 & 121 & 103 & 102 & 108 & 29 & 48 \\ 
+%    \hline
+% \end{tabular}
+% \end{table}
+The frequencies with which these dyads appear in the text offer insight into which countries' interests overlap, 
+and which groups of countries are 
+aligning with one another. Intuitively, the more frequently two countries appear together on the same 
+side of an issue, the more likely it is that their interests coincide. Relative frequencies of 
+dyads may 
+indicate the degree to which a country's positions are acceptable to all other parties; if relatively 
+few parties are willing to join in supporting a particular country, this suggests the latter country's 
+positions may represent an outlier in the negotiations. Alternatively, lower frequencies of positions, 
+and thus lower relative frequencies of dyads, might instead represent a degree of satisfaction with 
+the current draft text. These two interpretations are not mutually exclusive: countries that are 
+satisfied with the current draft text may also be outliers in the negotiations.
+
+To represent the relative frequencies of these dyads in an easily understandable form, 
+Figure \ref{fig_tpp_network_graph} displays a network graph. Network graphs and network analysis can help reveal relationships and 
+mechanisms of 
+information exchange between states \citep{kinne2013network}.
+Figure \ref{fig_tpp_network_graph}'s connections are weighted and colored 
+according to the 
+relative frequency of dyads. That is, the thicker and darker a connection between 
+two countries, the more frequently those countries appear on the same side of an issue in the draft 
+text of the TPP's intellectual property chapter. I also include symmetric dyads (i.e., a country paired with itself) as a loop linking the 
+country back to itself. The thicker and darker this loop, the more frequently a country appears in 
+the text without any other negotiating parties joining it.
+
+\begin{figure}
+\caption{Country Dyad Frequencies in the TPP IP Chapter}
+\label{fig_tpp_network_graph}
+\centering
+\includegraphics[width=1.1\textwidth]{tpp_network_all}
+\end{figure}
+
+Figure \ref{fig_tpp_network_graph} serves to highlight several notable patterns. First, the 
+United States and Japan are relatively 
+weakly linked to almost all other negotiating parties. The United States' strongest link is with 
+Australia, a staunch U.S. political and economic partner. Canada, which formally joined the TPP 
+negotiations in late 2012, has the highest number of proposals not joined by any other party, followed 
+by the United States and Japan. However, when considering these proposals as a proportion of each 
+country's total number of appearances in the text, Japan comes first, followed by the United States 
+and Canada. Very strong links tie Singapore, Malaysia, Chile, and New Zealand together.
+
+Given that the network graph is based solely on the TPP's intellectual property chapter, 
+its basic structure makes intuitive sense given the public positions of some of the TPP parties. 
+For example, the United States has a long history of pursuing strict intellectual property provisions 
+in trade agreements, while middle-income countries such as Vietnam and Peru have tended to adopt more 
+flexible interpretations. Thus, we would expect more connections between high-income countries and between 
+middle-income countries, but few links between the two groups. However, the weakness of particular 
+connections is surprising. The United States-Canada dyad, 
+for example, ranks 54th out of the 66 total dyads in frequency of appearance. Furthermore, because Canada has a 
+number of strong ties to other parties, the weak United States-Canada link cannot be attributed to 
+both parties being outliers or equally satisfied with the draft text, as one might argue for the 
+United States-Japan dyad. This suggests that Canada continues to resist the United States' intellectual property 
+agenda, not just domestically, but also in plurilateral negotiations.
+
+\subsection{Structured Information}
+
+As noted above, structured information exists in a well-defined format, and generally requires only 
+a minimal amount of processing. For example, the Cablegate leak provides both structured and 
+unstructured information. The structured information includes 
+the date, origin, and destination of the cable, while the unstructured information includes the content 
+of the cable.
+Structured information can be particularly valuable when analyzed 
+in aggregate; for example, \citet{oloughlin2010peering} use structured information from Wikileaks' ``Afghan 
+War Diary'' to geographically trace the spread of the Afghan insurgency. Structured information may be 
+combined with unstructured information in useful ways; for example, \citet{paruchuri2012tracking} employs this 
+approach to perform sentiment analysis over time on the Cablegate corpus.
+
+About one month after releasing the draft text of the TPP, Wikileaks released two 
+additional documents related to the TPP. The first was a collection of extracts from an ``internal 
+government commentary on the state of the TPP negotiations,'' and the second was a list of each 
+country's negotiating positions on 87 different 
+proposals, divided into fourteen topics \citep{wikileaks2013second}.
+
+While the first document received significant 
+attention within activist circles and by specialist news sources, given that Wikileaks 
+explicitly says that it had selected extracts from a larger document, it is impossible to know if the  
+extracts are representative of the complete document. In contrast, the second document, although 
+not as provocative at first glance, proves to be much more useful for 
+analytical purposes. This document was prepared by an unspecified 
+negotiating party to assist its delegation in identifying the proposals where disagreement remained. 
+Thus, the document contains only proposals for which at least one party was preventing unanimity at 
+the time of document's preparation (November 2013).
+
+For every proposal, the document reports whether each country accepts the proposal, rejects the 
+proposal, 
+or has a ``reserved position.''	Given that the data are already conveniently structured as a matrix, 
+the only processing required is to code these three values. The categories 
+readily lend themselves to an ordinal coding scale. I code rejection as $-1$ and acceptance as 
+$1$. A 
+``reserved position'' could reasonably be assumed to fall somewhere between rejection and acceptance, 
+but given that reserved positions account for only 112 of the total 1044 values, I treat them as 
+missing data to avoid making unnecessary assumptions. In addition to the 112 reserved positions, 
+there are 11 country-proposal combinations with no reported data in the leaked document.
+
+After coding, any number of standard techniques can be applied 
+to analyze the leaked data. For example, by applying a distance function to the columns or rows of 
+the matrix, one can obtain a distance matrix specifying the dissimilarity between negotiating 
+parties or between proposals. 
+
+Table \ref{tbl_tpp_dist} uses the common Euclidean distance function 
+to produce a 
+distance matrix for the TPP's twelve negotiating parties, comparing their positions across all 
+87 proposals.\endnote{Other distance functions such as Manhattan distance or cosine similarity 
+could also be used. For a helpful overview of common distance functions, see 
+Table 9.4 in \citep[487]{sullivan2012introduction}.}
+
+% latex table generated in R 2.15.2 by xtable 1.7-1 package
+% Sat Dec 28 17:40:47 2013
+\begin{table}[ht]
+\centering
+\caption{Distances between Negotiating Positions of TPP Countries}
+\label{tbl_tpp_dist}
+\begin{tabular}{lrrrrrrrrrrrr}
+  \hline
+ & AU & BN & CA & CL & JP & MX & MY & NZ & PE & SG & US \\ 
+  \hline
+AU &  &  &  &  &  &  &  &  &  &  &  \\ 
+  BN & 11.0 &  &  &  &  &  &  &  &  &  &  \\ 
+  CA & 9.7 & 9.3 &  &  &  &  &  &  &  &  &  \\ 
+  CL & 12.7 & 8.1 & 10.7 &  &  &  &  &  &  &  &  \\ 
+  JP & 9.8 & 8.5 & 9.2 & 9.8 &  &  &  &  &  &  &  \\ 
+  MX & 10.4 & 9.0 & 7.7 & 10.0 & 9.6 &  &  &  &  &  &  \\ 
+  MY & 11.6 & 7.9 & 10.1 & 9.1 & 9.6 & 10.4 &  &  &  &  &  \\ 
+  NZ & 9.4 & 7.7 & 9.7 & 9.1 & 8.6 & 10.4 & 9.9 &  &  &  &  \\ 
+  PE & 12.5 & 8.7 & 11.0 & 8.4 & 10.1 & 9.8 & 10.3 & 10.0 &  &  &  \\ 
+  SG & 10.3 & 6.9 & 10.2 & 9.3 & 7.7 & 10.0 & 9.3 & 7.4 & 9.3 &  &  \\ 
+  US & 11.6 & 14.4 & 13.2 & 15.7 & 13.1 & 13.8 & 16.0 & 14.6 & 15.0 & 13.9 &  \\ 
+  VN & 12.0 & 8.2 & 10.0 & 9.4 & 9.6 & 9.8 & 7.2 & 9.5 & 9.9 & 9.3 & 15.8 \\ 
+\hline
+%\scriptsize{*Vietnam is deliberately omitted from the columns, since the lower triangle of the matrix is 
+%sufficient to provide distances between all parties.} \\
+%   \hline
+\end{tabular}
+%\raggedright
+\end{table}
+
+% Figure \ref{fig_tpp_heatmap} uses the distance matrix shown in Table \ref{tbl_tpp_dist} to produce a 
+% heat map. 
+% The heat map, which is symmetrical for ease of reference, permits easy visual comparison of the 
+% Euclidean distances between negotiating parties. Lighter blues and whites represent greater 
+% distances (i.e., less similarity), while darker blues represent smaller distances 
+% (i.e., greater similarity). 
+% Rows and columns have been reordered to place 
+% close countries next to one another. The identical dendrograms at the top and left of the heat map show 
+% the results of 
+% hierarchical clustering of the countries. Hierarchical clustering aims to place similar countries in 
+% the same group, beginning with one group for each country, then progressively reducing the number 
+% of groups until only two remain.
+% 
+% \begin{figure}
+% \caption{Heat Map and Clustering of Negotiating Positions of TPP Countries}
+% \label{fig_tpp_heatmap}
+% \centering
+% \includegraphics[width=0.8\textwidth]{tpp_heatmap_clust}
+% \end{figure}
+
+While the previous section relied on semi-structured textual information 
+drawn from the draft text of a single chapter of the TPP, this section relies on structured information 
+drawn from the entire treaty. The results paint a somewhat different picture. In the intellectual 
+property chapter, both the United States and Japan had relatively few links to other negotiating 
+parties. Here, the United States is uniquely positioned, as is evident from the large distances 
+between it and every other negotiating party in Table \ref{tbl_tpp_dist}. 
+In fact, the distances that exist between the United States' overall negotiating position 
+and that of all other parties are large enough to consistently place the United States by itself when 
+using cluster analysis, irrespective of the number of clusters chosen.
+
+As noted above, one can also create a matrix to measure distances between 
+individual proposals, or, by averaging or summing groups of proposals, distances 
+between the various chapters of the TPP. Recall that in this context, ``distance'' refers to 
+degrees of agreement or disagreement. With distances between negotiating parties, it is interesting 
+to visualize the distances between country dyads, as in Figure \ref{fig_tpp_heatmap}. 
+However, this approach makes less sense when applied to distances 
+between chapters. Rather than distances between two chapters, it would be more interesting to see 
+the relative distance between all chapters.
+
+Multidimensional scaling (MDS) offers a suitable solution to this problem. MDS reduces the distances 
+between 
+objects in higher-dimensional spaces to more easily understood lower-dimensional (i.e., two or three) 
+spaces. Applying MDS to a matrix of distances representing the relative disagreement between TPP chapters results in a set of 
+two-dimensional 
+points which can be easily plotted, as shown in Figure \ref{fig_tpp_chapters}.\endnote{I used the 
+\emph{cmdscale} command in R, which performs metric multidimensional scaling. The goodness-of-fit 
+statistic is $> 0.88$, indicating that the two-dimensional plot captures a large amount of the 
+original information.} In this figure, the farther away a point from the origin, the more disagreement 
+exists among negotiating parties over the issues in that chapter.
+The axes represent the $x$ and $y$ axes of a 
+coordinate plane, and have no special meaning. The units are derived from the coding scheme; thus, 
+absolute nominal distances are not as important as the relative distances between points.
+
+\begin{figure}
+\caption{Relative Disagreement Among Negotiating Parties in TPP Chapters}
+\label{fig_tpp_chapters}
+\centering
+\includegraphics[width=\textwidth]{tpp_proposals_all_col_sums}
+\end{figure}
+
+The most striking feature of Figure \ref{fig_tpp_chapters} is the degree to which the TPP's 
+intellectual property chapter 
+is separated from all other chapters. A simple count of proposals shows that the intellectual property 
+chapter has more unresolved issues than any other chapter in the leaked data. However, MDS 
+also reveals that even when compared to other chapters with a large number of unresolved 
+issues (e.g., the environment chapter or the market access chapter), the intellectual property chapter 
+is relatively more contentious to a large degree.\endnote{In order to combine the data on various 
+proposals within a chapter into a single row representing 
+the overall degree of contention within a chapter, which can then be compared to other chapters, 
+I chose to use column sums. An alternative approach would have been to use column means. 
+Column sums are 
+non-normalized; i.e., chapters with a larger overall number of proposals will have a wider range of 
+potential distances than chapters with a smaller number of proposals. If the leaked data represented a 
+random sample of proposals taken from the chapter, then using the non-normalized column sums would 
+exaggerate the differences between chapters. However, because the leaked data represent 
+only the remaining areas of disagreement, chapters with fewer proposals can be assumed to be less 
+contentious than chapters with greater numbers of proposals. Using column means would assume that 
+all chapters are potentially equally contentious, which appears not to be the case. Thus, column 
+sums are a more appropriate measure of contention between chapters.}
+
+Analysis of the leaked text reveals that this contention results largely from demands for stronger intellectual 
+property protection attributed to the United States, 
+coupled with resistance to these demands from most other negotiating partners. While U.S. demands for 
+strong intellectual property protection are hardly surprising, U.S. isolation in voicing such demands 
+is surprising---one might expect Japan, another economic powerhouse and the second largest net exporter of 
+intellectual property in the world after the United States, to also voice demands for strong protection. Yet when 
+considering the negotiating distances between countries in the intellectual property chapter, Japan 
+is not distinguishable from a cluster of nine other countries. U.S. isolation in its demands coupled with 
+its very public insistence on promoting strong intellectual property rights in the TPP indicates that the 
+United States is expending significant bargaining capital on the issue of intellectual property as opposed to 
+other topics, such as environmental or labor standards. Since bargaining capital is a scarce resource, this 
+means the U.S. is prioritizing the protection of intellectual property over many other competing priorities, 
+despite insistence from the Office of the U.S. Trade Representative that it is equally committed to 
+achieving its goals in other policy areas \citep{u.s._trade_representative????trans-pacific}. 
+
+\subsection{Unstructured Information}
+
+``Cablegate'' refers to Wikileak's most well-known release of information: over a quarter million 
+United States diplomatic cables, primarily written between 2002 and 2010. These diplomatic cables 
+contain communications between hundreds of U.S. embassies, consulates, and the Department of State. 
+Initially, Wikileaks released small numbers of cables, and began working with traditional news 
+organizations to redact and publish larger amounts. However, in late 2011, the unredacted 
+contents of all cables were revealed when a reporter unintentionally published the passphrase used 
+to decrypt the file containing the cables. The unredacted cables are now searchable 
+using several public web-based interfaces, and available for download as a database. 
+The leaked cables contain both structured and unstructured information. 
+This section focuses on the use of the unstructured information contained in leaks as an alternative 
+data source for traditional qualitative research.
+
+More than half of Cablegate's cables are unclassified, about 100,000 are labeled ``confidential,'' 
+and a small 
+fraction are classified ``secret.'' None are classified as ``top secret.'' News reporting on the leak 
+focused almost exclusively on issues perceived to be of high political importance, as well as 
+the humorous and sometimes tawdry assessments of foreign officials provided by embassy and consulate 
+staff. However, as one might expect given the relatively small fraction of cables classified ``secret'' 
+and 
+the well-documented tendency towards overclassification, much of the material 
+contained in the leaked cables reports the relatively quotidian details of embassy and consulate 
+work.\endnote{Overclassification results both from the lack of immediate costs for classification, 
+and the psychological tendency of individuals to view secret information as being of a higher quality 
+than non-secret information, thus providing an additional incentive to classify documents 
+\citep{kaiser1986impact,overman1990information,aftergood2009reducing,travers2013secrecy}.} 
+While this type of material is unlikely to make headlines, it represents a potential gold mine 
+of information for political scientists. In their cables, foreign service officers provide detailed 
+and candid assessments of their interactions with foreign bureaucrats, analysis of domestic politics, 
+and reporting on local, national, regional, and international meetings. Although their accounts are 
+subjective and written within professional constraints, leaked cables often contain information 
+not found anywhere else.
+
+As an example, consider the value of leaked cables in revealing the United States' 
+position on the topic of traditional knowledge. As part of a current research project that asks why 
+very differently situated states 
+adopt remarkably similar intellectual property policies, I am examining the diffusion of traditional 
+knowledge protection in the Global South. According to the World Intellectual Property Organization 
+(WIPO), traditional knowledge refers to the ``knowledge, know how, 
+skills, innovations or practices, that are passed between generations in a traditional context and 
+that form part of the traditional lifestyle of indigenous and local communities who act as their 
+guardian or custodian,'' \citep{world_intellectual_property_organization2013traditional}.
+
+Traditional knowledge is a narrow topic within the field of intellectual property, which is itself 
+only one aspect of U.S. economic policy. Nevertheless, the leaked cables contain dozens of references 
+to traditional knowledge, originating from diplomatic posts all over the world. Despite being written 
+by different authors in different locations, sometimes years apart, the cables' references are nearly 
+always either purely descriptive and neutral, or analytical and negative, revealing a U.S. government 
+policy towards traditional knowledge that considers it at best as a political annoyance, and at worst as 
+an attempt to subvert what the U.S. views as mainstream intellectual property rights. Furthermore, the U.S. 
+approach to traditional knowledge as detailed in the leaked cables differs significantly from the 
+diplomatic statements of the U.S. in public fora such as WIPO.
+
+One can get a better sense of what constitutes traditional knowledge by way of example. Turmeric is 
+a South and Southeast Asian plant whose yellow roots are ground to produce a spice used extensively 
+in cooking. Apart from its culinary use, turmeric is also widely used in Chinese and Indian 
+traditional medicine, as well as in religious rituals and marriage ceremonies. Turmeric has 
+anti-inflammatory and wound healing properties that have been known for centuries, and which in part 
+account for its value in traditional medicine. The awareness, use, and documentation of these medical 
+properties by Indian and Chinese people is an example of traditional knowledge.
+
+Over the past twenty years, a significant number of African, Asian, and Latin American countries have 
+adopted legislation protecting traditional knowledge as a form of intellectual property. In some cases, 
+such legislation has come in response to accusations of misappropriation or ``biopiracy'' by Western 
+firms, particularly of traditional knowledge associated with genetic 
+resources \citep{dagne2012protection}. For example, in 1995 two researchers at the University of Mississippi 
+were granted a patent on the topical and oral use of turmeric as a wound healing agent, despite such 
+use being a well-known Indian folk remedy. Ultimately, the Indian government successfully challenged the 
+U.S. patent, resulting in its cancellation two years later \citep{kumar1997india}.
+
+Meanwhile, since 2001 WIPO has hosted over two dozen meetings of an intergovernmental committee 
+convened to study traditional knowledge within the framework of intellectual property. Political 
+divisions within this committee continue to stymie progress. In general, developed countries 
+oppose the creation of a binding international instrument protecting traditional knowledge, preferring 
+instead to limit such protection to the national level. On the other side of the issue, many 
+developing countries are pressing for a binding international treaty similar to the international 
+intellectual property treaties protecting copyrights or patents, or the possibility of an amendment 
+to the World Trade Organization's Agreement on Trade Related Aspects of Intellectual Property Rights 
+(TRIPS) that would require disclosure of the sources of any traditional knowledge relied upon 
+in patent applications. Interestingly, this debate flips the typical politics 
+of intellectual property on its head: with respect to traditional knowledge, developing countries are 
+calling for stricter rules, while developed countries emphasize the free flow of information and the 
+importance of the public domain.
+
+For its part, the United States does not officially reject the possibility of a binding international 
+instrument on traditional knowledge, instead claiming that it supports the committee's work ``without 
+prejudice to the type of instrument or instruments that would arise from those 
+negotiations,'' \citep{world_intellectual_property_organization2013intergovernmental}.
+However, such carefully worded statements are part and parcel of diplomatic negotiations, and 
+do not necessarily reveal a country's true views.
+In order to more fully appreciate the context surrounding the diffusion of traditional knowledge law 
+and policy, it is essential to know whether the United States, which by many 
+measures may be considered the number one promoter of strict intellectual property policy 
+internationally, is truly open to the conclusion of a binding international treaty protecting 
+traditional knowledge.
+
+Interviews with government officials at relevant agencies, such as the United States Trademark and 
+Patent Office, are unlikely to obtain information that is any less formulaic than what 
+appears in the diplomatic interventions of the U.S. at WIPO. Interviews with employees of WIPO itself 
+can be informative, but in the author's experience WIPO officials strive to maintain balance and objectivity, 
+and thus are very 
+hesitant to discuss details regarding individual member states. Officials from states that fully 
+support the negotiation of a binding international treaty on traditional knowledge are willing to be 
+frank, but information obtained from such interviews is inherently biased.
+
+Given these challenges, leaked diplomatic cables represent a valuable 
+data source, since they contain frank assessments both of the discussions on traditional 
+knowledge at WIPO, as well as the policy initiatives on traditional knowledge taking place 
+throughout the world. To demonstrate how the leaked cables alter and clarify our  
+understanding of the United States' 
+latent attitude towards traditional knowledge, consider the following five cables.
+
+\subsubsection{Bogot\'a, Colombia: Traditional knowledge on the radar}
+The earliest 
+cable, written from the U.S. embassy in Bogot\'a, Colombia, and sent to the State Department and the 
+United States Trade Representative (USTR), dates from April 2004, and provides an analysis of intellectual 
+property-related matters in Colombia, which were an important issue for a potential U.S.-Andean 
+free trade agreement (FTA) being considered at that time.\endnote{Negotiations on a U.S.-Andean FTA 
+formally began in May 2004 between the U.S. and Colombia, Ecuador, and Peru. Significant differences 
+as to the scope and obligations of the parties arose. Ultimately, only Peru continued the negotiations 
+that had begun as the U.S.-Andean FTA, culminating in the U.S.-Peru Trade Promotion Agreement.} 
+On the issue of traditional knowledge, the cable 
+notes ``Colombia may seek a `sui generis' protection regime in this area. However, developing a 
+transparent and objective set of rules on incorporating community participation in patenting 
+traditional knowledge would be extremely challenging in 
+practice,'' \citep{u.s._department_of_state2004andean}. Even though this 
+is a relatively mild comment, it already offers a more frank view of the U.S. position on formal 
+intellectual property protection for traditional knowledge than U.S. statements at WIPO.
+
+\subsubsection{Bangkok, Thailand: Politicization of traditional knowledge}
+Other cables suggest that the issue of traditional knowledge protection was increasing in political 
+importance for foreign countries. A November 2005 cable sent from the U.S. embassy in Bangkok to the 
+State Department, 
+USTR, and the Department of Agriculture analyzes the state of negotiations surrounding the 
+U.S.-Thailand FTA.\endnote{Negotiations on a U.S.-Thailand FTA began in June 2005, but faced 
+significant domestic opposition in Thailand. A military coup in 2006 removed the Thai Prime Minister from 
+office; since that time, no negotiations have taken place.}
+The cable's author reports that the Thai Ministry of Foreign Affairs (MFA) refused to negotiate on  
+intellectual property rights unless the U.S. government was willing to discuss traditional knowledge: 
+``MFA ostensibly decided against sending a team to discuss IPR at the London round after learning that 
+the USG [U.S. government] would only have negotiators on hand to discuss enforcement, i.e., no experts were available to 
+discuss Geographical Indications and Traditional 
+Knowledge,'' \citep{u.s._department_of_state2005u.s.-thailand}.
+
+\subsubsection{La Paz, Bolivia: Traditional knowledge and industrial property in conflict}
+At first, the U.S. government appears to have viewed traditional knowledge as a political annoyance, 
+an issue that might be relevant within the context of FTA negotiations, but otherwise was 
+unimportant. However, later cables show that the U.S. had come to view demands for the protection 
+of traditional knowledge as competing with other forms of intellectual property. For example, 
+in late 2007 and amidst significant unrest, Bolivian President Evo Morales introduced a new 
+constitution, which was later approved in a referendum. Due to the fact that Morales was the 
+leader of a democratic socialist political party and had 
+long harbored anti-U.S. sentiments, the United States was gravely concerned about the ramifications 
+of the new constitution. U.S. embassy staff in La Paz obtained a draft copy of the constitution from a 
+member of a minority political party, and sent an analysis back to Washington. The author of the cable 
+frames the issue of traditional knowledge as a conflict between a new form of intellectual property 
+and existing forms of intellectual property:
+\begin{quote}Intellectual property
+rights for traditional knowledge and cultural items would be emphasized, with the State being required 
+to set up a register for collectively-owned traditional knowledge. (Comment: The Bolivian IP agency 
+SENAPI is already focusing on this registry, to the detriment of industrial property claims. 
+End comment.) \citep{u.s._department_of_state2007bolivia:}
+\end{quote}
+
+% Hey Gabe! That sounds pretty good. Just one thing - I'd be careful about the phrase "the constitution's initially
+% undemocratic origins." A lot of it looked/looks, on paper, extremely democratic with expanded rights for indigenous and
+% peasants, who'd never had much political voice before. The part I think you're referring to is how Morales snuck in
+% language allowing himself to run for a technically-prohibited third term, right? I could be wrong here, but I don't
+% think it came out until later that that was Morales' intention. So I think it might be better to mention that there were
+% undemocratic elements of the constitution that concerned the US, but not that the constitution ever looked undemocratic
+% on the whole. Part of Morales' malicious brilliance has been how well he's concealed his authoritarian ways under the
+% guise of bringing power to the people, etc. I hope that helps!
+
+\subsubsection{Bras\'ilia, Brazil: Concern about national initiatives to protect traditional knowledge}
+In public fora like WIPO, the United States suggests that national initiatives on traditional knowledge 
+are preferable to international initiatives, both because national initiatives can account for 
+widely varying local conditions, and because national initiatives can offer important information for 
+the future development of international initiatives. Privately, however, the United States expresses 
+concern about national initiatives to protect traditional knowledge. As an illustrative example, 
+consider comments from the U.S. embassy in Bras\'ilia regarding Brazil's approach to regulating access 
+to genetic resources and traditional knowledge:
+\begin{quote}
+Brazil has put in place an elaborate and confusing regime for 
+controlling access to genetic resources and traditional knowledge. 
+This regime comes at a price to Brazil and the world.  Anecdotal 
+evidence from Brazilian and U.S. government and non-governmental 
+sources suggests that there has been a marked decline in scientific 
+research in Brazil involving genetic resources and traditional 
+knowledge \citep{u.s._department_of_state2009brazils}.
+\end{quote}
+
+\subsubsection{Jakarta, Indonesia: Avoiding references to traditional knowledge in bilateral agreements}
+The growing concern over attempts to protect traditional knowledge resulted 
+in the U.S. avoiding explicit references to traditional 
+knowledge in 
+bilateral agreements.\endnote{While the U.S.-Peru and U.S.-Panama Trade Promotion Agreements both make 
+brief reference to traditional knowledge in the context of intellectual property, 
+the references occur outside the formal text of the agreement in additional ``understandings'' and 
+``side letters.''}
+A cable from the U.S. embassy in Jakarta, written in 
+late 2009, discusses progress on negotiations surrounding a U.S.-Indonesia Science and Technology 
+Agreement within the larger context of U.S-Indonesia relations and U.S. engagement with the Muslim 
+world. The cable's author reports that traditional knowledge remained a final area of contention, and 
+writes ``We have informed DEPLU [the Indonesian Ministry of Foreign Affairs] and other
+stakeholders that the USG [U.S. government] cannot agree to any explicit reference to
+GRTKF [genetic resources, traditional knowledge, and 
+folklore],'' \citep{u.s._department_of_state2009indonesia}.
+
+% Could discuss TPP proposed chapter on TK here
+
+These five cables represent only a few of the dozens of cables in the Cablegate corpus that discuss 
+the topic of 
+traditional knowledge. Based on my reading of the corpus and other research, they 
+provide a relatively representative 
+view of the United States' positions. Their value comes from the fact that they present a very different 
+picture of U.S. policy 
+on and attitudes towards traditional knowledge than could be gleaned from public statements at WIPO or 
+from interviews. Furthermore, they were written by different embassy staff 
+across a period of 
+several years. Relying on a single cable leaves researchers susceptible to an 
+individual author's idiosyncrasies, but relying on multiple cables from multiple regions and 
+several years largely addresses this concern. As noted above, traditional knowledge is a narrow topic 
+within the field of intellectual property, which itself is only a single aspect of economic and 
+trade policy. In spite of this relatively narrow focus, the Cablegate corpus contains a significant 
+amount of information about traditional knowledge. Researchers who assume that their topic is too 
+narrow or policy-focused to be discussed in the Cablegate corpus may be surprised by its breadth of coverage.
+
+\section{Conclusion}
+
+Despite the breadth and depth of information exposed by a series of high-profile leaks over the past several years, 
+political scientists have been relatively reluctant to use leaked information as a data source in research. 
+In contrast, scholars in other disciplines have already published findings relying upon leaked information. 
+
+Political scientists' reluctance may stem from methodological concerns about data quality or selection 
+bias, or from concerns about the ethical or legal implications of using leaked information. 
+It is not the case that the objections to using leaked information 
+as a data source are invalid or baseless; rather, there is little reason \emph{a priori} to assume 
+that leaked information is any worse in these respects than other commonly used data sources. 
+Researchers could benefit from closer attention to data quality and 
+selection bias irrespective of their sources.
+Likewise, the ethical concerns raised by the use of leaked information are on the whole more important 
+for those dealing with non-public information or the media. The legal concerns have some basis, 
+particularly for governmental employees or researchers who have or may in the future obtain access to 
+classified information; however, much of the Cablegate corpus is likely immune from such concerns, 
+and it is very hard to see how academic research could be construed as harming national security.
+
+Alternatively, our reluctance may be related to skepticism about whether leaked information is relevant 
+to our research, and if so, whether it can provide any additional value above and beyond other sources. 
+Yet far from simply being gossip or confirming what we already know, leaked information provides 
+valuable insights into a wide variety of areas that are relevant to research in political science. 
+Scholars from other disciplines have so far focused on conflict modeling and prediction, but as I 
+have shown, leaks can offer insight into negotiating dynamics and specific areas of economic and 
+trade policy, such as intellectual property.
+
+Readers of this journal in particular will be interested in the contents of Cablegate, which contains 
+significant amounts of material relating to U.S. diplomatic efforts on global public health, international 
+development, labor and environmental standards, climate change negotiations, and many other policy-relevant topics. 
+Diplomatic cables also offer insight into what might otherwise be ``dogs that do not bark,'' as embassy officials and 
+bureaucrats provide explanations when negotiations fail.
+Broader analyses could employ text-mining techniques to analyze shifts in language and tone over time.
+
+Leaked information offers an expansive data source for political scientists interested in a wide variety of topics. 
+By avoiding engagement with leaked information, we are unnecessarily limiting ourselves, our research, and 
+the state of knowledge. The methodological, ethical, and legal questions surrounding the use of such information 
+have answers, and the information itself is uniquely valuable. We can and should move forward with using it.
+
+% in the endnotes, we change it without `\textsuperscript`, adding a space
+%\patchcmd{\theendnotes}
+%  {\makeatletter}
+%  {\makeatletter\renewcommand\makeenmark{\theenmark }}
+%  {}{}
+
+\theendnotes
+
+\bibliographystyle{apa}
+\bibliography{leaks}
+
+\end{document}
+
+% Todo:
+
+%%%%%%%% 1. Incorporate brief paragraph about legal implications (Henry)
+
+%%%%%%%% 2. Discuss the limitations of text mining using public diplomatic statements
+
+%%%%%%%% 3. Note the fact that people already use cables, they're just 30 years old/declassified.
