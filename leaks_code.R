@@ -183,21 +183,13 @@ dev.off()
 # Read data from hand coded files based on position document
 ################################################################################
 
+read_positions <- function(f) {
 # As we read each file, eliminate the first row (contains provision description)
-positions <- read.csv("positions_ip.csv")[-1]
-positions <- rbind(positions, read.csv("positions_competition_soe.csv")[-1])
-positions <- rbind(positions, read.csv("positions_customs.csv")[-1])
-positions <- rbind(positions, read.csv("positions_ecommerce.csv")[-1])
-positions <- rbind(positions, read.csv("positions_environment.csv")[-1])
-positions <- rbind(positions, read.csv("positions_govt_procurement.csv")[-1])
-positions <- rbind(positions, read.csv("positions_investment.csv")[-1])
-positions <- rbind(positions, read.csv("positions_labour_issues.csv")[-1])
-positions <- rbind(positions, read.csv("positions_legal.csv")[-1])
-positions <- rbind(positions, read.csv("positions_market_access.csv")[-1])
-positions <- rbind(positions, read.csv("positions_rules_of_origin.csv")[-1])
-positions <- rbind(positions, read.csv("positions_services.csv")[-1])
-positions <- rbind(positions, read.csv("positions_sps.csv")[-1])
-positions <- rbind(positions, read.csv("positions_tbt.csv")[-1])
+	return(read.csv(f)[-1])
+}
+positions <- do.call("rbind", sapply(position_files, read_positions, 
+				simplify = FALSE, USE.NAMES = FALSE))
+
 # My hand coded file initially coded as follows:
 # Accept = 1
 # Reject = 0
