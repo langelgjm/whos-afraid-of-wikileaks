@@ -1,124 +1,189 @@
-######### Network Graph #############
+################################################################################
+# This code is licensed CC BY
+#
+# Author: Gabriel J. Michael
+#
+# Postdoctoral Associate and Resident Fellow
+# Information Society Project
+# Yale Law School
+# 127 Wall St
+# New Haven, CT 06511
+#
+# Personal E-mail: gabriel.j.michael@gmail.com
+# Institutional E-mail: gabriel.michael@yale.edu
+# Website: www.gabrieljmichael.com
+# Twitter: @gabrieljmichael
+# Github: github.com/langelgjm
+#
+# This file contains the R code used to produce the figures, tables, and 
+# statistics for the article "Who's Afraid of Wikileaks? Missed Opportunities 
+# in Political Science Research"
+# 
+# Before running this code, you should have obtained or created the necessary 
+# data files by either running the supplied scripts, or downloading the provided 
+# data files.
+#
+# This code will overwrite without warning any existing files that have the 
+# following names:
+# tpp_network_all.png
+# tpp_heatmap_clust.png
+# tpp_proposals_all_col_sums.png
+#
+# Tested on R version 2.15.2, running on x86_64-apple-darwin9.8.0/x86_64
+#################################################################################
 
-library(xtable)
+################################################################################
+# Set your working directory and perform basic tests
+################################################################################
 
-setwd("/Users/gjm/Documents/_Works in Progress/TPP/Leak 1/")
-# Have to specify number of columns because read.table only looks at first 5 rows
-countries <- read.table("countries.csv", sep=",", header=FALSE,fill=TRUE,col.names=c(1:12),
-		stringsAsFactors=FALSE)
+wd <- "/Users/gjm/Documents/_Works in Progress/Leaks/eclipse/"
+# Check to make sure this path is valid
+if (! file_test("-d", wd)) {
+	stop("You must set a valid working directory.")
+} else {
+	setwd(wd)
+}
 
-# create list of country codes
+# Does countries.csv exist?
+if (! file_test("-f", "countries.csv")) {stop("Missing countries.csv")}
+# Vector of files that contain position data for each chapter
+position_files <- c("positions_competition_soe.csv",
+		"positions_customs.csv",
+		"positions_ecommerce.csv",
+		"positions_environment.csv",
+		"positions_govt_procurement.csv",
+		"positions_investment.csv",
+		"positions_ip.csv",
+		"positions_labour_issues.csv",
+		"positions_legal.csv",
+		"positions_market_access.csv",
+		"positions_rules_of_origin.csv",
+		"positions_services.csv",
+		"positions_sps.csv",
+		"positions_tbt.csv")
+# Test for existence of each file
+position_files_test <- file_test("-f", position_files)
+# Tell us which files, if any, are missing
+ifelse(position_files_test, TRUE, stop(paste("Missing", 
+						position_files[position_files_test], "\n")))
+
+# Test if necessary packages are installed, and load them
+required_packages <- c("xtable", "igraph", "ggplot2", "RColorBrewer")
+optional_packages <- c("MASS")
+required_packages_test <- sapply(required_packages, require, character.only=TRUE)
+ifelse(required_packages_test, TRUE, stop(paste("Missing package", 
+						required_packages[required_packages_test], "\n")))
+optional_packages_test <- sapply(optional_packages, require, character.only=TRUE)
+ifelse(optional_packages_test, TRUE, warning(paste("Missing optional package", 
+						optional_packages[optional_packages_test], "\n")))
+
+################################################################################
+# SECTION 3.1
+# Read and prepare the data from the draft text
+################################################################################
+
+# Read countries.csv data file (contains all country codes, including single
+# codes)
+# Must specify number of columns because read.table only looks at first 5 rows
+# when guessing
+countries <- read.table("countries.csv", sep=",", header=FALSE, fill=TRUE, 
+		col.names=c(1:12), stringsAsFactors=FALSE)
+# The text uses standard ISO 3166-1 alpha-2 country codes for the 12 parties
 codes <- c("AU","BN","CA","CL","JP","MX","MY","NZ","PE","SG","US","VN")
-# create transposed matrix of unique, unordered combinations of country codes
-# later we add identities to the combinations
-##code_combos <- rbind(t(combn(codes,2)), matrix(rep(t(combn(codes,1)),2),12,2))
+# Create transposed matrix of unique, unordered combinations of these codes
+# This does not include identities (dyads between the same country)
 code_combos <- t(combn(codes,2))
-# Create matrix of identical country codes
+# Create transposed matrix of identities
 single_code_combos <- matrix(rep(t(combn(codes,1)),2),12,2)
-# Do some tests
-#code_combos[75,]
-#apply(head(countries), 1, function(x) all(code_combos[75,] %in% x))
-#apply(code_combos, 1, function(y) all(y %in% countries[11,]))
-
-# This should run through each row of code_combos, and tell us if 
-# it is present in each line of groups, producing a matrix
+# This looks at each row of code_combos, and tell us if 
+# it is present in each line of countries, producing a matrix of boolean values
 countries_matrix <- apply(countries, 1, 
 		function(x) apply(code_combos, 1, 
 					function(y) all(y %in% x)))
-# Now handle the sole proposers
-# This runs through for just the single code combos
+# Look at each row of single_code_combos, and tell us which rows in 
+# countries match each row of single_code combos
+# This is how we count sole proposer, i.e., countries not joined by other 
+# parties
 countries_matrix_sole <- apply(countries, 1, 
 		function(x) apply(single_code_combos, 1, 
-					function(y) all(y %in% x[1] & nchar(x[2])==0 ) ) )
-
-# now bind matrices together
+					function(y) all(y %in% x[1] & nchar(x[2])==0)))
+# Bind these matrices together
 countries_matrix <- rbind(countries_matrix,countries_matrix_sole)
+# And bind the combinations together to produce a matrix with  
+# all dyads, including identities
 code_combos <- rbind(code_combos, single_code_combos)
-
-# Trick to convert logical matrix to numeric matrix
+# Convert the logical (boolean) matrix to a numeric matrix
+# This trick is easier than using as.numeric and recreating the matrix
 countries_matrix <- countries_matrix * 1
-# Now row sums will provide a frequency count for each pair
+# Count the frequency of each dyad and store it
 countries_freq <- rowSums(countries_matrix)
 
-# Start making a data frame
-countries_df <- data.frame(country1 = code_combos[,1], country2 = code_combos[,2])
+# Create a data frame for analysis
+countries_df <- data.frame(country1 = code_combos[,1], 
+		country2 = code_combos[,2])
 countries_df$freq <- countries_freq
-# Make labels
+# Add a label column
 countries_df$label <- apply(countries_df, 1, function(x) paste(x[1], x[2]))
 # Reorder
 countries_df <- countries_df[order(countries_df$freq),]
 
-# Create a matrix for diplaying frequencies
+################################################################################
+# SECTION 3.1
+# Display a matrix for dyadic frequencies
+# This table is not included in the manuscript, but displays the data used in 
+# the network graph
+################################################################################
+
+# Create empty matrix
 A <- matrix(rep(NA,144), nrow=12, ncol=12)
+# Name the rows and columns
 dimnames(A) = list(codes, codes)
+# Populate with frequencies
 A[cbind(countries_df$country2, countries_df$country1)] <- countries_df$freq
+# Display
 xtable(A, digits=rep(0,13))
 
-# Created weighted network graph
-library(igraph)
+################################################################################
+# SECTION 3.1
+# Create the network graph
+################################################################################
+
+# It is not a directed network graph
 gr <- graph.data.frame(countries_df, directed=FALSE)
-# Play with different ways of transforming the frequencies
-#E(gr)$width <- countries_df$freq / 15
+# Transform the raw frequencies to produce a reasonable visualization
 E(gr)$width <- rank(countries_df$freq)/10
+# Purely for visual effect
 E(gr)$curved <- 0.2
-#E(gr)$color <- ifelse(grepl("US", E(gr)$label), "blue", "grey")
-# Produce color vector; add 2 for rounding down and up
+# Produce color vector; add 2 values to cover rounding range
 colors <- heat.colors(max(rank(countries_df$freq)/10)+2)
-# reverse color order
+# Reverse color order
 colors <- rev(colors)
+# Apply the colors
 E(gr)$color <- colors[round(E(gr)$width)+1]
-# Delete labels for now
+# Delete labels from the edges
 E(gr)$label <- ""
+# Add and format labels for the vertices
 V(gr)$label.cex <- 2
 V(gr)$label.family <- "sans"
 V(gr)$label.color <- "white"
 V(gr)$color <- rgb(8,104,172,maxColorValue=255)
 V(gr)$frame.color <- rgb(8,104,172,maxColorValue=255)
+# Manually specify the angles of loops so that they all extend outwards
 angles <- c(0,0,0,0,-pi,-pi,-pi,0,-pi,-pi,-pi,0)
 E(gr)$loop.angle[is.loop(gr)] <- angles
-#pdf("tpp_network_all.pdf", width=12,height=10)
-png("/Users/gjm/Documents/_Works in Progress/Leaks/eclipse/tpp_network_all.png", 
+# Save output to file
+png("tpp_network_all.png", 
 		width=1024,height=800)
 par(mar=c(0,0,0,0))
 plot(gr, layout=layout.circle)
-#title(main="Weighted Network Graph of Country Dyad Negotiating Positions\n in TPP IP Chapter, including Sole-Country Proposals", , sub="Gabriel J. Michael, gmichael@gwu.edu")
 dev.off()
 
-############# Distance Matrix and Heat Map ############
+################################################################################
+# SECTION 3.2
+# Read data from hand coded files based on position document
+################################################################################
 
-
-setwd("/Users/gjm/Documents/_Works in Progress/TPP/Leak 2")
-
-library(MASS)
-library(ggplot2)
-library(Matrix)
-library(xtable)
-
-tpp_change_coding <- function(positions) {
-	# change coding: 0 becomes -1, 0.5 becomes NA, 1 stays 1
-	positions[positions==0] <- -1
-	# 0.5 to NA means making no assumptions about reserved positions
-	positions[positions==0.5] <- NA
-	return(positions)
-}
-
-tpp_chapter_positions <- function(positions) {
-	# drop first row, since it contains proposal data not relevant to chapter comparisons
-	label <- colnames(positions)[1]
-	positions <- positions[-1]
-	# NAs prevent calculating cosine similarity, so changing them to 0s for now
-	positions[is.na(positions)] <- 0
-	# cosine similarity calculates similarity between N-dimensional vectors, produces value between -1 and 1
-	# -1 is diametrically opposed vectors, 0 is vectors at 90 degrees, 1 is identical vectors
-	# Then the column sum will a meaningful value?
-	# The higher the value, the more similarity exists between a country and others?
-	# Divide column sum by number of issues to normalize it between chapters?
-	# Decided against normalizing, as it is misleading?
-#	cos_sim_vector <- colSums(cosine(as.matrix(positions)))/nrow(positions)
-	cos_sim_vector <- colSums(cosine(as.matrix(positions)))
-	return(list(label, cos_sim_vector))
-}
-
+# As we read each file, eliminate the first row (contains provision description)
 positions <- read.csv("positions_ip.csv")[-1]
 positions <- rbind(positions, read.csv("positions_competition_soe.csv")[-1])
 positions <- rbind(positions, read.csv("positions_customs.csv")[-1])
@@ -133,41 +198,141 @@ positions <- rbind(positions, read.csv("positions_rules_of_origin.csv")[-1])
 positions <- rbind(positions, read.csv("positions_services.csv")[-1])
 positions <- rbind(positions, read.csv("positions_sps.csv")[-1])
 positions <- rbind(positions, read.csv("positions_tbt.csv")[-1])
-positions <- tpp_change_coding(positions)
-# reorder column names alphabetically
+# My hand coded file initially coded as follows:
+# Accept = 1
+# Reject = 0
+# Reserved position = 0.5
+# No data = (nothing)
+# This function changes the coding as follows:
+# Accept = 1
+# Reject = -1
+# Reserved position = NA (to avoid making assumptions about what this means)
+# No data = NA (this is default R behavior)
+change_coding <- function(positions) {
+	# Order of changes is important!
+	positions[positions==0] <- -1
+	positions[positions==0.5] <- NA
+	return(positions)
+}
+positions <- change_coding(positions)
+# Reorder column names (country codes) alphabetically
 positions <- positions[,order(names(positions))]
 
-# Euclidean distance
+################################################################################
+# SECTION 3.2
+# Create the distance matrix
+################################################################################
+
+# Produce the distance matrix reporting Euclidean distances between parties
 tmp <- as.matrix(dist(t(positions)))
+# Note that we only need the lower triangle, so fill the upper triangle
+# and the diagonal (identities) with NAs
 tmp[upper.tri(tmp, diag=TRUE)] <- NA
 xtable(tmp, digits=c(0,rep(1,12)))
-# Manhattan distance
-#dist(t(positions), method="manhattan")
 
+################################################################################
+# SECTION 3.2
+# Create a heat map and clustering, neither of which appear in the manuscript
+# Although I briefly reference the clustering results
+################################################################################
 
-library(RColorBrewer)
-#library(gplots)
-png("/Users/gjm/Documents/_Works in Progress/Leaks/eclipse/tpp_heatmap_clust.png", height=640,width=640)
+png("tpp_heatmap_clust.png", height=640,width=640)
 par(mar=c(0,0,0,0))
-#par(mar=c(5.1,8.1,4.1,2.1))
-# Euclidean distance
+# Need a fresh distance matrix
 tmp <- as.matrix(dist(t(positions)))
-#tmp[lower.tri(tmp, diag=TRUE)] <- NA
 heatmap(tmp, symm=TRUE, col=rev(brewer.pal(9,"Blues")), cexRow=1.5, cexCol=1.5)
-#heatmap.2(tmp, symm=TRUE, col=rev(brewer.pal(9,"Blues")))
-#heatmap(tmp, symm=TRUE, main="Heat Map of Euclidean Distances between TPP Negotiating Positions")
-#heatmap(tmp, Rowv=NA, Colv=NA, col=rev(heat.colors(24)), symm = TRUE,
-#		main=expression(atop("Heat Map of TPP Negotiating Position Overlap", atop("CC BY-SA 3.0, Gabriel J. Michael, gmichael@gwu.edu"))))
 dev.off()
 
-############ MDS ################
+################################################################################
+# SECTION 3.2
+# Prepare data for MDS
+################################################################################
 
-library(lsa)
+# Create empty data frame to store chapter intensity scores
+chap_df <- data.frame(matrix(vector(), 0, 12))	
+read_chap <- function(f) {
+	# Read chapter file, dropping first column which contains proposal names
+	p <- read.csv(f, colClasses=c("character",rep("numeric",12)))[-1]
+	p <- change_coding(p)
+	# Create non-normalized intensity scores using column sums
+	p <- colSums(p, na.rm=TRUE)
+	# If we wanted normalized scores, use this line instead
+	#p <- colMeans(p, na.rm=TRUE)
+	# If the data frame has not yet been populated, provide country codes as 
+	# column names
+	if (nrow(chap_df) == 0) {
+		colnames(chap_df) <- names(p)
+	}
+	# Add a row to the data frame with the scores for this chapter
+	chap_df[nrow(chap_df)+1,] <- p
+	chap_df
+}
 
-setwd("/Users/gjm/Documents/_Works in Progress/TPP/Leak 2")
+# Create transposed matrix storing chapter intensity scores
+chap_m <- t(sapply(position_files, read_chap, USE.NAMES = FALSE))
 
-create_ggplot <- function(legend_title, 
-		chapter_title, 
+################################################################################
+# SECTION 3.2
+# Perform MDS
+################################################################################
+
+# Create distance matrix
+chap_dist <- dist(chap_m)
+# Metric MDS
+chap_mds <- cmdscale(chap_dist, eig=TRUE)
+# View goodness-of-fit statistic
+chap_mds$GOF
+
+# For non-metric MDS, use this instead
+#chap_mds <- isoMDS(chap_dist)
+
+################################################################################
+# SECTION 3.2
+# Prepare labels and graph MDS results
+################################################################################
+
+# Create letters to serve as labels on the MDS graph
+labels_letters <- LETTERS[1:nrow(chap_m)]
+# Descriptive labels will also go in the legend
+# Get the title of the chapter in each file
+get_title <- function(f) {
+	x <- read.csv(f)
+	names(x)[1]
+}
+titles <- sapply(position_files, get_title, USE.NAMES = FALSE)
+# Now match a prettier label to some of these titles
+pretty_title <- function(title) {
+	switch(title, 
+		Competition={"Competition/SOE"},
+	    E.Commerce={"E-Commerce"},
+	    Gov.t.Procurement={"Government Procurement"},
+		IP={"Intellectual Property"},
+	    Market.Access={"Market Access"},
+	    Rules.of.Origin={"Rules of Origin"},
+	    SPS={"Sanitary/Phytosanitary"},
+		{title}
+	)
+}
+pretty_titles <- sapply(titles, pretty_title, USE.NAMES = FALSE)
+# Create the legend labels for the MDS graph
+labels_legend <- paste(labels_letters, ": ", pretty_titles, sep="")
+
+# Create the data frame for graphing based on the results of the MDS
+chap_mds_df <- data.frame(x=chap_mds$points[,1], 
+		y=chap_mds$points[,2],
+		labels_legend=labels_legend, 
+		labels_letters=labels_letters)
+
+# Define a plotting function
+# This function includes the option to produce jitter (random disturbances in 
+# X and Y coordinates). Without jitter, the points and labels will overlap and 
+# be hard to read. Adding a small amount of jitter makes the plot far more 
+# legible without affecting the interpretation of coordinates too much.
+# Because the jitter is random, you cannot produce the same plot twice.
+# Each call of this function will produce new and different jitter.
+# To keep a specific set of jitter values, pass new_jitter = FALSE
+make_mds_plot <- function(data, 
+		legend_title, 
 		file_name, 
 		x_min, x_max, x_by,
 		y_min, y_max, y_by,
@@ -178,17 +343,17 @@ create_ggplot <- function(legend_title,
 	
 	# Only create new jitter if explicitly told to do so
 	if (new_jitter == TRUE) {
-		positions_mds_gg$xj <- positions_mds_gg$x + runif(nrow(positions_mds_gg),x_min_jitter,x_max_jitter)
-		positions_mds_gg$yj <- positions_mds_gg$y + runif(nrow(positions_mds_gg),y_min_jitter,y_max_jitter)
+		data$xj <- data$x + runif(nrow(data),x_min_jitter,x_max_jitter)
+		data$yj <- data$y + runif(nrow(data),y_min_jitter,y_max_jitter)
 	}
 	
-	ggp <- ggplot(data=positions_mds_gg, aes(x=xj, y=yj, color=issue)) + 
+	ggp <- ggplot(data=data, aes(x=xj, y=yj, color=labels_legend)) + 
 			geom_point(size=15) +
 			geom_point(size=12, 
 					color="white", 
 					show_guide=FALSE) +
 			geom_text(size=6, 
-					aes(label=nums), 
+					aes(label=labels_letters), 
 					color="black") +
 			theme(axis.text = element_text(size=20), 
 					axis.ticks=element_blank(), 
@@ -213,142 +378,20 @@ create_ggplot <- function(legend_title,
 					linetype="longdash") + 
 			geom_hline(yintercept=0, 
 					colour="#999999", 
-					linetype="longdash") #+ 
-#			ggtitle(
-#					bquote(
-#							atop(paste("TPP Issue Distances, ", .(chapter_title), sep=""), 
-#									atop("CC BY-SA 3.0 Gabriel J. Michael, gmichael@gwu.edu", ""))))
+					linetype="longdash")
 	ggsave(file_name, ggp, width=width, height=height, dpi=dpi)
 	return(ggp)
 }
 
-tpp_change_coding <- function(positions) {
-	# change coding: 0 becomes -1, 0.5 becomes NA, 1 stays 1
-	positions[positions==0] <- -1
-	# 0.5 to NA means making no assumptions about reserved positions
-	positions[positions==0.5] <- NA
-	return(positions)
-}
-
-# Normalized
-
-tpp_chapter_positions_norm <- function(positions) {
-	# drop first row, since it contains proposal data not relevant to chapter comparisons
-	label <- colnames(positions)[1]
-	positions <- positions[-1]
-	# creates intensity score, which we have to normalize?
-	v <- colMeans(positions, na.rm=TRUE)
-	return(list(label, v))
-}
-
-tpp_chapter_positions_nonnorm <- function(positions) {
-	# drop first row, since it contains proposal data not relevant to chapter comparisons
-	label <- colnames(positions)[1]
-	positions <- positions[-1]
-	# creates intensity score, which we have to normalize?
-	v <- colSums(positions, na.rm=TRUE)
-	return(list(label, v))
-}
-
-positions <- read.csv("positions_ip.csv", colClasses=c("character",rep("numeric",12)))
-positions <- tpp_change_coding(positions)
-tpp <- data.frame(matrix(vector(), 0, 12))
-colnames(tpp) <- colnames(positions[2:13])
-o <- tpp_chapter_positions_nonnorm(positions)
-tpp[1,] <- o[[2]]
-
-positions <- read.csv("positions_competition_soe.csv", colClasses=c("character",rep("numeric",12)))
-positions <- tpp_change_coding(positions)
-o <- tpp_chapter_positions_nonnorm(positions)
-tpp[2,] <- o[[2]]
-
-positions <- read.csv("positions_customs.csv", colClasses=c("character",rep("numeric",12)))
-positions <- tpp_change_coding(positions)
-o <- tpp_chapter_positions_nonnorm(positions)
-tpp[3,] <- o[[2]]
-
-positions <- read.csv("positions_ecommerce.csv", colClasses=c("character",rep("numeric",12)))
-positions <- tpp_change_coding(positions)
-o <- tpp_chapter_positions_nonnorm(positions)
-tpp[4,] <- o[[2]]
-
-positions <- read.csv("positions_environment.csv", colClasses=c("character",rep("numeric",12)))
-positions <- tpp_change_coding(positions)
-o <- tpp_chapter_positions_nonnorm(positions)
-tpp[5,] <- o[[2]]
-
-positions <- read.csv("positions_govt_procurement.csv", colClasses=c("character",rep("numeric",12)))
-positions <- tpp_change_coding(positions)
-o <- tpp_chapter_positions_nonnorm(positions)
-tpp[6,] <- o[[2]]
-
-positions <- read.csv("positions_investment.csv", colClasses=c("character",rep("numeric",12)))
-positions <- tpp_change_coding(positions)
-o <- tpp_chapter_positions_nonnorm(positions)
-tpp[7,] <- o[[2]]
-
-positions <- read.csv("positions_labour_issues.csv", colClasses=c("character",rep("numeric",12)))
-positions <- tpp_change_coding(positions)
-o <- tpp_chapter_positions_nonnorm(positions)
-tpp[8,] <- o[[2]]
-
-positions <- read.csv("positions_legal.csv", colClasses=c("character",rep("numeric",12)))
-positions <- tpp_change_coding(positions)
-o <- tpp_chapter_positions_nonnorm(positions)
-tpp[9,] <- o[[2]]
-
-positions <- read.csv("positions_market_access.csv", colClasses=c("character",rep("numeric",12)))
-positions <- tpp_change_coding(positions)
-o <- tpp_chapter_positions_nonnorm(positions)
-tpp[10,] <- o[[2]]
-
-positions <- read.csv("positions_rules_of_origin.csv", colClasses=c("character",rep("numeric",12)))
-positions <- tpp_change_coding(positions)
-o <- tpp_chapter_positions_nonnorm(positions)
-tpp[11,] <- o[[2]]
-
-positions <- read.csv("positions_services.csv", colClasses=c("character",rep("numeric",12)))
-positions <- tpp_change_coding(positions)
-o <- tpp_chapter_positions_nonnorm(positions)
-tpp[12,] <- o[[2]]
-
-positions <- read.csv("positions_sps.csv", colClasses=c("character",rep("numeric",12)))
-positions <- tpp_change_coding(positions)
-o <- tpp_chapter_positions_nonnorm(positions)
-tpp[13,] <- o[[2]]
-
-positions <- read.csv("positions_tbt.csv", colClasses=c("character",rep("numeric",12)))
-positions <- tpp_change_coding(positions)
-o <- tpp_chapter_positions_nonnorm(positions)
-tpp[14,] <- o[[2]]
-
-label_nums <- LETTERS[1:nrow(tpp)]
-labels <- c("Intellectual Property", "Competition/SOE", "Customs", "E-Commerce", "Environment", 
-		"Government Procurement", "Investment", "Labor", "Legal", 
-		"Market Access", "Rules of Origin", "Services",
-		"Sanitary/Phytosanitary", "Technical Barriers to Trade")
-labels <- paste(label_nums, ": ", labels, sep="")
-#	labels <- rep("blank", 11)
-
-positions_dist <- dist(tpp)
-# Alternatively
-#tpp[is.na(tpp)] <- 0
-#positions_dist <- acos(cosine(as.matrix(t(tpp))))
-positions_mds <- isoMDS(positions_dist)
-positions_mds_gg <- data.frame(x=positions_mds$points[,1], 
-		y=positions_mds$points[,2], 
-		issue=labels, 
-		nums=label_nums)
-
-positions_mds <- cmdscale(positions_dist)
-cmdscale(positions_dist, eig=TRUE)
-positions_mds_gg <- data.frame(x=positions_mds[,1], 
-		y=positions_mds[,2], 
-		issue=labels, 
-		nums=label_nums)
-#
-create_ggplot("Chapter", "All Chapters (column sums)", 
-		"/Users/gjm/Documents/_Works in Progress/Leaks/eclipse/tpp_proposals_all_col_sums.png", 
-		-10, 40, 5, -10, 15, 5, TRUE, -.5, .5, -.5, .5, 9, 7, 72)
-#create_ggplot("Chapter", "All Chapters (column sums)", "tpp_proposals_all_col_sums_2.png", 
-#		-3, 3, 1, -3, 3, 1, TRUE, -.2, .2, -.2, .2, 10, 10, 72)
+make_mds_plot(chap_mds_df, 
+		"Chapter", 
+		"tpp_proposals_all_col_sums.png", 
+		-10, 40, 5, 
+		-10, 15, 5, 
+		TRUE, 
+		-.5, .5, 
+		-.5, .5, 
+		9, 7, 72)
+################################################################################
+# END
+################################################################################

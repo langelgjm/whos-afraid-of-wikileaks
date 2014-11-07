@@ -1,0 +1,16 @@
+Environment,AU,NZ,US,PE,CL,MX,CA,SG,BN,MY,VN,JP
+Definition,1,1,1,0,0,1,1,1,1,0,0,1
+Definition: MEAs,1,1,1,1,0,1,1,1,1,1,1,1
+Subnational coverage,0,1,0,1,1,0,0,1,0,0,1,0
+MEAs not subject to dispute settlement,1,1,0,1,1,1,1,1,1,1,1,1
+Dispute settlement not including MEAs,1,1,0,1,1,1,1,1,1,1,1,1
+Dispute settlement,0,0,1,0,0,0,0,0,0,0,0,0
+Biodiversity: mention derivatives,0,0,0,1,0,0.5,0,0,1,1,1,0
+Biodiversity: eliminate paragraphs,0,0,1,0,0,0,0,0,0,0,0,0
+Climate change: shorten article,1,0,1,0,0,0,0,0,0,0,0,0
+Climate change: paragraph on fossil fuels,1,1,1,1,1,1,1,1,1,0,0,1
+Climate change: reference to APEC,1,1,1,0,1,1,1,1,1,1,1,1
+Fishery subsidies,1,1,1,1,0,0.5,1,1,1,0,0,1
+Illegal fishing,1,1,1,1,1,1,1,0,1,1,1,1
+Conservation,0,1,1,0,0,0,1,0,0,0,0,0
+Environmental goods and services,1,1,1,0,0,0.5,1,1,1,0,0,0

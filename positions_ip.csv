@@ -1,0 +1,19 @@
+IP,AU,NZ,US,PE,CL,MX,CA,SG,BN,MY,VN,JP
+Patentability criteria,1,0,1,1,0,0,0,0,0,0,0,0.5
+Supplementary patent protection,0,0,1,0,0,0,0,0,0,0,0,0
+Patent protection for new uses,0,0,1,0,0,0,0,1,0,0,0,0.5
+Pharmaceutical linkage,0,0,1,0,0,0,0,0,0,0,0,0
+Pharmaceutical data protection,0,0,1,0,0,0,0,0,0,0,0,0
+Copyright TPM,1,0.5,1,1,0,1,0.5,1,0,0,0,0
+Copyright Term (US),0,0,1,0,0,0,0,0,0,0,0,0
+Copyright parallel importation,0,0,1,0,0,0,0,0,0,0,0,0
+Copyright ISPs (CL),0,1,0,1,1,1,1,1,1,1,1,0.5
+Criminal offenses for unintentional infringement,0,0,1,0,0,0,0,0,0,0,0,0
+Criminal penalties for camcording,1,0,0,0,0,0,1,0,0,1,0,0
+Other agreements parties must implement,1,0,1,0,0,0,0,0.5,0,0,0,0
+National treatment: keep TRIPS/WIPO exclusions,0,1,0,1,1,0.5,0.5,1,1,1,1,1
+Scent trademarks,1,1,1,1,0,0,0,1,0.5,0,0.5,0
+GI protection through brand,0.5,0.5,0,0,1,0,0,0,0,0,0,0
+System for opposing GI,1,1,1,0,0,0,0,0,0,0,0,0.5
+Don't prohibit 3rd party use of translated GI,0,0,1,0,0,0,0,0,0,0,0,0.5
+Trademarks registration not precluded by GI,0,0,1,0,0,0,0,0,0,0,0,0.5
