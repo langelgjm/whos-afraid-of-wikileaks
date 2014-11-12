@@ -64,18 +64,30 @@ position_files <- c("positions_competition_soe.csv",
 # Test for existence of each file
 position_files_test <- file_test("-f", position_files)
 # Tell us which files, if any, are missing
-ifelse(position_files_test, TRUE, stop(paste("Missing", 
-						position_files[position_files_test], "\n")))
+if (any(ifelse(position_files_test, FALSE, TRUE))) {
+	stop(paste("Missing", 
+					position_files[! position_files_test], "\n"))
+} else {
+	print("Found all required files.\n")
+}
 
 # Test if necessary packages are installed, and load them
 required_packages <- c("xtable", "igraph", "ggplot2", "RColorBrewer")
 optional_packages <- c("MASS")
 required_packages_test <- sapply(required_packages, require, character.only=TRUE)
-ifelse(required_packages_test, TRUE, stop(paste("Missing package", 
-						required_packages[required_packages_test], "\n")))
+if (any(ifelse(required_packages_test, FALSE, TRUE))) {
+	stop(paste("Missing package", 
+					required_packages[! required_packages_test], "\n"))
+} else {
+	print("Loaded all required packages.\n")
+} 
 optional_packages_test <- sapply(optional_packages, require, character.only=TRUE)
-ifelse(optional_packages_test, TRUE, warning(paste("Missing optional package", 
-						optional_packages[optional_packages_test], "\n")))
+if (any(ifelse(optional_packages_test, FALSE, TRUE))) {
+	stop(paste("Missing optional package", 
+					optional_packages[! optional_packages_test], "\n"))
+} else {
+	print("Loaded all optional packages.\n")
+} 
 
 ################################################################################
 # SECTION 3.1
